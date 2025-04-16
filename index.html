@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOP-UP Secure | Safe File Upload Service</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <!-- Vue.js 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    :root {
+      --primary-color: #7E57C2; /* Soft purple */
+      --secondary-color: #64B5F6; /* Soft blue */
+      --accent-color: #4DB6AC; /* Soft teal */
+      --dark-color: #455A64; /* Soft dark blue-gray */
+      --light-color: #F5F7FA; /* Very light gray */
+      --soft-gray: #ECEFF1; /* Light gray */
+      --success-color: #81C784; /* Soft green */
+      --danger-color: #E57373; /* Soft red */
+      --warning-color: #FFB74D; /* Soft orange */
+    }
+    
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: var(--dark-color);
+      background-color: var(--light-color);
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, #EDE7F6 0%, #E0F7FA 100%);
+      padding: 3rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+    
+    .upload-container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+      padding: 1.5rem;
+      margin-top: 0;
+      border: none;
+    }
+    
+    .file-preview {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 12px;
+      margin-top: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      display: none;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background-color: #6a51b3;
+      border-color: #6a51b3;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(126, 87, 194, 0.3);
+    }
+    
+    .footer {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 3rem 0 1.5rem;
+    }
+    
+    .tech-badge {
+      background-color: var(--soft-gray);
+      color: var(--dark-color);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .security-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+      border: none;
+      height: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .security-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    
+    .max-size-info {
+      background-color: rgba(126, 87, 194, 0.1);
+      border-left: 4px solid var(--primary-color);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+    
+    .danger-file {
+      background-color: rgba(229, 115, 115, 0.1);
+      border-left: 4px solid var(--danger-color);
+      border-radius: 8px;
+    }
+    
+    .file-types-container {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    }
+    
+    .file-type-card {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .file-type-card:hover {
+      background-color: var(--soft-gray);
+    }
+    
+    .supported {
+      border-left: 4px solid var(--success-color);
+    }
+    
+    .unsupported {
+      border-left: 4px solid var(--danger-color);
+    }
+    
+    .file-icon {
+      font-size: 1.5rem;
+      margin-right: 1rem;
+      width: 40px;
+      text-align: center;
+    }
+    
+    .supported-icon {
+      color: var(--success-color);
+    }
+    
+    .unsupported-icon {
+      color: var(--danger-color);
+    }
+    
+    .mobile-optimized {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    
+    .navbar-brand {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .hero-section h1 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    
+    .hero-section p.lead {
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+    
+    .btn-lg {
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+    }
+    
+    .benefit-badge {
+      background-color: rgba(126, 87, 194, 0.1);
+      color: var(--primary-color);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    
+    .alert-success {
+      background-color: rgba(129, 199, 132, 0.1);
+      border-left: 4px solid var(--success-color);
+      color: var(--dark-color);
+    }
+    
+    .alert-info {
+      background-color: rgba(100, 181, 246, 0.1);
+      border-left: 4px solid var(--secondary-color);
+      color: var(--dark-color);
+    }
+    
+    .alert-danger {
+      background-color: rgba(229, 115, 115, 0.1);
+      border-left: 4px solid var(--danger-color);
+      color: var(--dark-color);
+    }
+    
+    .upload-timer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+    
+    .upload-timer i {
+      margin-right: 0.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .hero-section {
+        padding: 5rem 0;
+      }
+      
+      .upload-container {
+        padding: 2.5rem;
+        margin-top: -60px;
+      }
+      
+      .hero-section h1 {
+        font-size: 2.5rem;
+      }
+      
+      .navbar-brand {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div class="container mobile-optimized">
+        <a class="navbar-brand fw-bold" href="#">
+          <i class="bi bi-shield-lock text-primary me-2"></i>
+          TOP-UP
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#features">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#file-types">File Types</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#security">Security</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#upload">Upload</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container text-center mobile-optimized">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h1 class="display-5 fw-bold mb-4">Secure File Upload Service</h1>
+            <p class="lead mb-4">Transfer your files safely with military-grade encryption and advanced security protocols.</p>
+            <div class="benefit-badge">
+              <i class="bi bi-currency-dollar me-1"></i> 100% Free Forever
+            </div>
+            <a href="#upload" class="btn btn-primary btn-lg px-4 me-2 mb-2">
+              <i class="bi bi-cloud-arrow-up me-1"></i> Get Started
+            </a>
+            <a href="#security" class="btn btn-outline-secondary btn-lg px-4 mb-2">
+              <i class="bi bi-shield-check me-1"></i> Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5 bg-white">
+      <div class="container mobile-optimized">
+        <div class="text-center mb-4">
+          <h2 class="fw-bold">Why Choose TOP-UP?</h2>
+          <p class="text-muted">The most secure and convenient way to share files</p>
+        </div>
+        
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="security-card">
+              <div class="text-center">
+                <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+                  <path d="M8.5 8.5v.01"></path>
+                  <path d="M16 15.5v.01"></path>
+                  <path d="M12 12v.01"></path>
+                  <path d="M11 17v.01"></path>
+                  <path d="M7 14v.01"></path>
+                </svg>
+              </div>
+              <h5 class="card-title text-center">No Registration</h5>
+              <p class="card-text text-muted text-center">Start uploading immediately without creating an account. No personal information required.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="security-card">
+              <div class="text-center">
+                <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 8v4l3 3"></path>
+                </svg>
+              </div>
+              <h5 class="card-title text-center">Lightning Fast</h5>
+              <p class="card-text text-muted text-center">Our optimized network ensures your files transfer quickly, even with encryption overhead.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="security-card">
+              <div class="text-center">
+                <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <h5 class="card-title text-center">Zero-Knowledge</h5>
+              <p class="card-text text-muted text-center">We never have access to your unencrypted data. Only you hold the decryption keys.</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="security-card">
+              <div class="text-center">
+                <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <h5 class="card-title text-center">100% Free</h5>
+              <p class="card-text text-muted text-center">No hidden fees, no subscriptions. Enjoy our premium service completely free.</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="security-card">
+              <div class="text-center">
+                <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </div>
+              <h5 class="card-title text-center">24/7 Support</h5>
+              <p class="card-text text-muted text-center">Our team is always ready to help you with any questions or issues.</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="security-card">
+              <div class="text-center">
+                <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <h5 class="card-title text-center">Cross-Platform</h5>
+              <p class="card-text text-muted text-center">Works perfectly on any device - desktop, tablet, or mobile.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- File Types Section -->
+    <section id="file-types" class="py-5">
+      <div class="container mobile-optimized">
+        <div class="file-types-container">
+          <div class="text-center mb-4">
+            <h2 class="fw-bold">Supported File Types</h2>
+            <p class="text-muted">Maximum upload size: 10MB per file</p>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="mb-3"><i class="bi bi-check-circle-fill text-success me-2"></i> Supported Files</h4>
+              
+              <div class="file-type-card supported">
+                <div class="file-icon"><i class="bi bi-file-earmark-image text-primary"></i></div>
+                <div>
+                  <h6 class="mb-1">Images</h6>
+                  <p class="text-muted small mb-0">.jpg, .jpeg, .png, .gif, .webp, .svg</p>
+                </div>
+              </div>
+              
+              <div class="file-type-card supported">
+                <div class="file-icon"><i class="bi bi-file-earmark-text text-primary"></i></div>
+                <div>
+                  <h6 class="mb-1">Documents</h6>
+                  <p class="text-muted small mb-0">.pdf, .doc, .docx, .txt, .rtf</p>
+                </div>
+              </div>
+              
+              <div class="file-type-card supported">
+                <div class="file-icon"><i class="bi bi-file-earmark-spreadsheet text-primary"></i></div>
+                <div>
+                  <h6 class="mb-1">Spreadsheets</h6>
+                  <p class="text-muted small mb-0">.xls, .xlsx, .csv</p>
+                </div>
+              </div>
+              
+              <div class="file-type-card supported">
+                <div class="file-icon"><i class="bi bi-file-earmark-play text-primary"></i></div>
+                <div>
+                  <h6 class="mb-1">Videos</h6>
+                  <p class="text-muted small mb-0">.mp4, .mov, .avi (max 10MB)</p>
+                </div>
+              </div>
+              
+              <div class="file-type-card supported">
+                <div class="file-icon"><i class="bi bi-file-earmark-music text-primary"></i></div>
+                <div>
+                  <h6 class="mb-1">Audio</h6>
+                  <p class="text-muted small mb-0">.mp3, .wav, .ogg</p>
+                </div>
+              </div>
+              
+              <div class="file-type-card supported">
+                <div class="file-icon"><i class="bi bi-file-earmark-zip text-primary"></i></div>
+                <div>
+                  <h6 class="mb-1">Archives</h6>
+                  <p class="text-muted small mb-0">.zip, .rar (password protected not allowed)</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <h4 class="mb-3"><i class="bi bi-x-circle-fill text-danger me-2"></i> Unsupported Files</h4>
+              
+              <div class="file-type-card unsupported">
+                <div class="file-icon"><i class="bi bi-file-earmark-code text-danger"></i></div>
+                <div>
+                  <h6 class="mb-1">Executables</h6>
+                  <p class="text-muted small mb-0">.exe, .dll, .bat, .cmd, .sh</p>
+                </div>
+              </div>
+              
+              <div class="file-type-card unsupported">
+                <div class="file-icon"><i class="bi bi-file-earmark-binary text-danger"></i></div>
+                <div>
+                  <h6 class="mb-1">Scripts</h6>
+                  <p class="text-muted small mb-0">.php, .js, .py, .pl, .rb</p>
+                </div>
+              </div>
+              
+              <div class="file-type-card unsupported">
+                <div class="file-icon"><i class="bi bi-file-earmark-font text-danger"></i></div>
+                <div>
+                  <h6 class="mb-1">System Files</h6>
+                  <p class="text-muted small mb-0">.sys, .dmg, .iso, .tmp</p>
+                </div>
+              </div>
+              
+              <div class="file-type-card unsupported">
+                <div class="file-icon"><i class="bi bi-file-earmark-lock text-danger"></i></div>
+                <div>
+                  <h6 class="mb-1">Other Restricted</h6>
+                  <p class="text-muted small mb-0">.htaccess, .env, .git, .svn</p>
+                </div>
+              </div>
+              
+              <div class="file-type-card unsupported">
+                <div class="file-icon"><i class="bi bi-file-earmark-zip text-danger"></i></div>
+                <div>
+                  <h6 class="mb-1">Protected Archives</h6>
+                  <p class="text-muted small mb-0">Password-protected .zip/.rar files</p>
+                </div>
+              </div>
+              
+              <div class="alert alert-info mt-3">
+                <i class="bi bi-shield-check me-2"></i>
+                All files are scanned using enterprise-grade security protocols before processing.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload" class="py-5 bg-soft">
+      <div class="container mobile-optimized">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="upload-container">
+              <h2 class="text-center mb-4">Secure File Upload</h2>
+              
+              <div class="max-size-info">
+                <i class="bi bi-exclamation-circle-fill me-2"></i>
+                Maximum upload size: 10MB (for security and performance reasons)
+              </div>
+              
+              <form id="uploadForm" @submit.prevent="uploadFile" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label for="fileInput" class="form-label">Select file to upload securely</label>
+                  <input class="form-control" type="file" id="fileInput" @change="validateFile" required>
+                </div>
+                
+                <div v-if="fileError" class="alert alert-danger danger-file">
+                  <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                  {{ fileError }}
+                </div>
+                
+                <div v-if="uploadTimer > 0" class="upload-timer">
+                  <i class="bi bi-clock"></i>
+                  Please wait {{ uploadTimer }} seconds before next upload
+                </div>
+                
+                <div class="d-grid mt-4">
+                  <button type="submit" class="btn btn-primary" :disabled="uploading || fileError || uploadTimer > 0">
+                    <span v-if="!uploading">
+                      <i class="bi bi-cloud-arrow-up me-1"></i> Upload File
+                    </span>
+                    <span v-else>
+                      <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                      Encrypting & Uploading...
+                    </span>
+                  </button>
+                </div>
+              </form>
+              
+              <!-- Post-upload preview -->
+              <div v-if="result && result.success" class="mt-4">
+                <h5 class="mb-3">Upload Successful</h5>
+                
+                <div class="alert alert-success">
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-3 fs-4"></i>
+                    <div>
+                      <p class="mb-1">Your file has been securely uploaded and encrypted.</p>
+                      <p class="mb-0">URL: <a :href="result.url" target="_blank" class="alert-link">{{ result.url }}</a></p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                  <h6 class="mb-3">File Preview</h6>
+                  <img v-if="isImage" :src="result.url" class="file-preview img-fluid d-block mx-auto" style="display: block;">
+                  <div v-else class="p-3 bg-light rounded">
+                    <i class="bi bi-file-earmark-text display-4 text-muted"></i>
+                    <p class="mt-2 mb-0">{{ selectedFile.name }}</p>
+                    <p class="text-muted small">{{ formatFileSize(selectedFile.size) }}</p>
+                    <a :href="result.url" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                      <i class="bi bi-download me-1"></i> Download
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <div v-if="result && !result.success" class="mt-4 alert alert-danger">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+                  <div>
+                    <h5 class="alert-heading mb-1">Upload Failed</h5>
+                    <p class="mb-0">{{ result.message || 'An error occurred during the upload process.' }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Advanced Security Section -->
+    <section id="security" class="py-5 bg-white">
+      <div class="container mobile-optimized">
+        <div class="text-center mb-4">
+          <h2 class="fw-bold">Advanced Security Measures</h2>
+          <p class="text-muted">Protecting your data with the highest security standards</p>
+        </div>
+        
+        <div class="row">
+          <div class="col-lg-6 mb-3">
+            <div class="security-card">
+              <h4 class="mb-3"><i class="bi bi-lock-fill text-primary me-2"></i> Encryption Protocol</h4>
+              <p>We use AES-256-GCM encryption, which provides both confidentiality and integrity protection. This military-grade encryption is virtually unbreakable with current technology.</p>
+              <div class="mt-3">
+                <span class="tech-badge"><i class="bi bi-key me-1"></i> 256-bit Keys</span>
+                <span class="tech-badge"><i class="bi bi-shuffle me-1"></i> GCM Mode</span>
+                <span class="tech-badge"><i class="bi bi-patch-check me-1"></i> Authenticated</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6 mb-3">
+            <div class="security-card">
+              <h4 class="mb-3"><i class="bi bi-shield-check text-primary me-2"></i> Transport Security</h4>
+              <p>All connections use TLS 1.3 with perfect forward secrecy. Our servers support only strong cipher suites and are regularly audited for vulnerabilities.</p>
+              <div class="mt-3">
+                <span class="tech-badge"><i class="bi bi-lock me-1"></i> TLS 1.3</span>
+                <span class="tech-badge"><i class="bi bi-arrow-repeat me-1"></i> PFS</span>
+                <span class="tech-badge"><i class="bi bi-hdd-rack me-1"></i> HSTS</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6 mb-3">
+            <div class="security-card">
+              <h4 class="mb-3"><i class="bi bi-incognito text-primary me-2"></i> Privacy Features</h4>
+              <p>Our zero-knowledge architecture means we never see your unencrypted data. Files are automatically deleted from our temporary storage after processing.</p>
+              <div class="mt-3">
+                <span class="tech-badge"><i class="bi bi-eye-slash me-1"></i> Zero-Knowledge</span>
+                <span class="tech-badge"><i class="bi bi-clock me-1"></i> Auto-Expiry</span>
+                <span class="tech-badge"><i class="bi bi-file-earmark-minus me-1"></i> No Metadata</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6 mb-3">
+            <div class="security-card">
+              <h4 class="mb-3"><i class="bi bi-safe text-primary me-2"></i> Infrastructure</h4>
+              <p>Our servers are hosted in ISO 27001 certified data centers with 24/7 physical security, biometric access controls, and redundant power supplies.</p>
+              <div class="mt-3">
+                <span class="tech-badge"><i class="bi bi-shield-lock me-1"></i> ISO 27001</span>
+                <span class="tech-badge"><i class="bi bi-building me-1"></i> Tier IV</span>
+                <span class="tech-badge"><i class="bi bi-lightning-charge me-1"></i> Redundant</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container mobile-optimized">
+        <div class="row">
+          <div class="col-lg-5 mb-4 mb-lg-0">
+            <h5 class="text-white mb-3">
+              <i class="bi bi-shield-lock me-2"></i> TOP-UP Secure
+            </h5>
+            <p class="text-white-50">The most secure way to transfer files online with end-to-end encryption and advanced privacy protections.</p>
+          </div>
+          
+          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-white mb-3">Quick Links</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="#features" class="text-white-50 text-decoration-none">Features</a></li>
+              <li class="mb-2"><a href="#file-types" class="text-white-50 text-decoration-none">File Types</a></li>
+              <li class="mb-2"><a href="#security" class="text-white-50 text-decoration-none">Security</a></li>
+              <li class="mb-2"><a href="#upload" class="text-white-50 text-decoration-none">Upload</a></li>
+            </ul>
+          </div>
+          
+          <div class="col-lg-4 col-md-6">
+            <h5 class="text-white mb-3">Contact Us</h5>
+            <ul class="list-unstyled text-white-50">
+              <li class="mb-2"><i class="bi bi-envelope me-2"></i> ask@topup.eu.org</li>
+              <li class="mb-2"><i class="bi bi-globe me-2"></i> www.topup.eu.org</li>
+              <li><i class="bi bi-telephone me-2"></i> +62 (851) 7961-2320</li>
+            </ul>
+          </div>
+        </div>
+        
+        <hr class="my-4 bg-secondary">
+        
+        <div class="row">
+          <div class="col-md-6 text-center text-md-start">
+            <p class="small mb-0 text-white-50">&copy; 2023 TOP-UP Secure. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-center text-md-end">
+            <a href="#" class="text-white-50 me-3"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-white-50 me-3"><i class="bi bi-github"></i></a>
+            <a href="#" class="text-white-50 me-3"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="text-white-50"><i class="bi bi-shield-check"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    const { createApp, ref, onMounted } = Vue;
+    
+    createApp({
+      setup() {
+        const previewUrl = ref(null);
+        const isImage = ref(false);
+        const selectedFile = ref(null);
+        const uploading = ref(false);
+        const result = ref(null);
+        const fileError = ref(null);
+        const uploadTimer = ref(0);
+        let timerInterval = null;
+        
+        // List of dangerous file extensions
+        const dangerousExtensions = [
+          '.php', '.php3', '.php4', '.php5', '.php7', '.phtml',
+          '.asp', '.aspx', '.ashx', '.asmx', '.jsp', '.jspx',
+          '.pl', '.py', '.cgi', '.sh', '.bash', '.bat', '.cmd',
+          '.exe', '.dll', '.so', '.jar', '.war', '.htaccess',
+          '.env', '.sql', '.git', '.svn', '.7z', '.tar', '.gz',
+          '.js', '.rb', '.sys', '.dmg', '.iso'
+        ];
+        
+        const startUploadTimer = () => {
+          uploadTimer.value = 30; // 30 seconds cooldown
+          timerInterval = setInterval(() => {
+            uploadTimer.value--;
+            if (uploadTimer.value <= 0) {
+              clearInterval(timerInterval);
+            }
+          }, 1000);
+        };
+        
+        const validateFile = (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+          
+          // Reset previous state
+          fileError.value = null;
+          result.value = null;
+          
+          // Check file size (10MB max)
+          const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+          if (file.size > maxSize) {
+            fileError.value = `File size exceeds 10MB limit (${formatFileSize(file.size)})`;
+            event.target.value = ''; // Clear the file input
+            return;
+          }
+          
+          // Check for dangerous file types
+          const fileName = file.name.toLowerCase();
+          const isDangerous = dangerousExtensions.some(ext => fileName.endsWith(ext));
+          
+          if (isDangerous) {
+            fileError.value = 'This file type is not allowed for security reasons.';
+            event.target.value = ''; // Clear the file input
+            return;
+          }
+          
+          // Check for double extensions (e.g., image.jpg.php)
+          const parts = fileName.split('.');
+          if (parts.length > 2) {
+            const lastTwoExtensions = '.' + parts.slice(-2).join('.');
+            if (dangerousExtensions.includes(lastTwoExtensions)) {
+              fileError.value = 'This file appears to be disguised as another file type.';
+              event.target.value = '';
+              return;
+            }
+          }
+          
+          // If all checks pass
+          selectedFile.value = file;
+          isImage.value = file.type.startsWith('image/');
+        };
+        
+        const formatFileSize = (bytes) => {
+          if (bytes === 0) return '0 Bytes';
+          const k = 1024;
+          const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+          const i = Math.floor(Math.log(bytes) / Math.log(k));
+          return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        };
+        
+        const uploadFile = async () => {
+          if (!selectedFile.value || fileError.value || uploadTimer.value > 0) return;
+          
+          uploading.value = true;
+          result.value = null;
+          
+          const formData = new FormData();
+          formData.append('file', selectedFile.value);
+          
+          try {
+            // Simulate upload (replace with your actual API endpoint)
+            const response = await fetch('http://localhost:3001/upload', { //Change your real api endpoint
+              method: 'POST',
+              body: formData
+            });
+            
+            const data = await response.json();
+            result.value = data;
+            
+            // Start the 30-second cooldown timer after successful upload
+            startUploadTimer();
+          } catch (err) {
+            console.error(err);
+            result.value = {
+              success: false,
+              message: 'Network error occurred during upload'
+            };
+          } finally {
+            uploading.value = false;
+          }
+        };
+        
+        onMounted(() => {
+          // Clean up timer when component unmounts
+          return () => {
+            if (timerInterval) clearInterval(timerInterval);
+          };
+        });
+        
+        return {
+          previewUrl,
+          isImage,
+          selectedFile,
+          uploading,
+          result,
+          fileError,
+          uploadTimer,
+          validateFile,
+          formatFileSize,
+          uploadFile
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
