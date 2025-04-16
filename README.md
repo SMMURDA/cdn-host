@@ -42,7 +42,7 @@ A simple Express.js server for uploading files directly to Alibaba Cloud OSS (Ob
    - [ ] No file size restrictions
    - [ ] No Rate Limit Size
 
-You have to add it yourself for the backend, but in some cases like max upload, dangerous files are prohibited, delay per upload, it has been made in the frontend. but it would be better to add it also in the backend for better security, for example as below.
+You have to add it yourself for the backend, but in some cases like max upload, valid dangerous files, delay per upload, it has been made in the frontend. but it would be better to add it also in the backend for better security, for example as below.
 
 ```javascript
 // OSS with .env:
