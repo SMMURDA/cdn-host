@@ -36,3 +36,33 @@ A simple Express.js server for uploading files directly to Alibaba Cloud OSS (Ob
 |-------------------|--------------------------------------|
 | `line809`          | Your Endpoint IP Backend (e.g., `http://localhost:3000`) |`) |
 
+## Note Backend
+
+   - [ ] Hardcode Configuration
+   - [ ] No file size restrictions
+   - [ ] No Rate Limit Size
+
+You have to add it yourself for the backend, but in some cases like max upload, dangerous files are prohibited, delay per upload, it has been made in the frontend. but it would be better to add it also in the backend for better security, for example as below.
+
+```javascript
+// OSS with .env:
+const client = new OSS({
+  region: process.env.OSS_REGION, 
+  accessKeyId: process.env.OSS_ACCESS_KEY_ID,
+  accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET,
+  bucket: process.env.OSS_BUCKET
+});
+
+// Valid file upload
+const allowedTypes = ['image/jpeg', 'image/png'];
+if (!allowedTypes.includes(req.file.mimetype)) {
+  return res.status(400).json({ error: 'File type not allowed' });
+}
+
+// Max Uploaded (10MB)
+const maxSize = 10 * 1024 * 1024;
+if (req.file.size > maxSize) {
+  return res.status(400).json({ error: 'File too large' });
+}
+```
+
