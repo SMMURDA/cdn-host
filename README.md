@@ -30,4 +30,8 @@ A simple Node.js server for uploading files directly to Alibaba Cloud OSS (Objec
 
 | Parameter         | Description                          |
 |-------------------|--------------------------------------|
-| `line809`          | Your OSS region (e.g., `oss-us-west-1`) |
+| `line809`          | Your API Endpoint Backend (e.g., `## Configuration Backend
+
+| Parameter         | Description                          |
+|-------------------|--------------------------------------|
+| `region`          | Your Endpoint IP Backend (e.g., `http://localhost:3000`) |`) |
