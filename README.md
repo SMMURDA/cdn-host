@@ -26,12 +26,9 @@ A simple Node.js server for uploading files directly to Alibaba Cloud OSS (Objec
 | `bucket`          | Your OSS bucket name                 |
 | `CUSTOM_DOMAIN`   | Your CDN or custom domain            |
 
-## Configuration Frontend
-
-| Parameter         | Description                          |
-|-------------------|--------------------------------------|
-| `line809`          | Your API Endpoint Backend (e.g., `## Configuration Backend
+## Configuration Backend
 
 | Parameter         | Description                          |
 |-------------------|--------------------------------------|
 | `region`          | Your Endpoint IP Backend (e.g., `http://localhost:3000`) |`) |
+
