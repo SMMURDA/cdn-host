@@ -24,6 +24,14 @@ A simple Express.js server for uploading files directly to Alibaba Cloud OSS (Ob
 - Alibaba Cloud OSS account
 - Custom domain configured with your OSS bucket
 
+## Frontend Screenshot
+
+<div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <img src="https://raw.githubusercontent.com/SMMURDA/cdn-host/main/screenshot/frontend.jpg" alt="Gambar 1" style="max-width: 30%; height: auto;" />
+  <img src="https://raw.githubusercontent.com/SMMURDA/cdn-host/main/screenshot/frontend1.jpg" alt="Gambar 2" style="max-width: 30%; height: auto;" />
+  <img src="https://raw.githubusercontent.com/SMMURDA/cdn-host/main/screenshot/frontend2.jpg" alt="Gambar 3" style="max-width: 30%; height: auto;" />
+</div>
+
 ## Configuration Backend
 
 | Parameter         | Description                          |
