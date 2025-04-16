@@ -3,6 +3,10 @@
   <img src="https://raw.githubusercontent.com/SMMURDA/cdn-host/main/screenshot/result.jpg" alt="Hasil Screenshot" style="max-width: 100%; height: auto;" />
 </div>
 
+![Node.js](https://img.shields.io/badge/Node.js-18.x-green)
+![Express](https://img.shields.io/badge/Express-4.x-lightgrey)
+![OSS](https://img.shields.io/badge/Aliyun-OSS-blue)
+![Security](https://img.shields.io/badge/Security-Hardened-yellow)
 
 A simple Express.js server for uploading files directly to Alibaba Cloud OSS (Object Storage Service) with a custom domain.
 
