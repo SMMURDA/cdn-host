@@ -1,6 +1,6 @@
-# OSS Upload Server with Custom Domain
+# CDN Host Server with Custom Domain
 
-A simple Node.js server for uploading files directly to Alibaba Cloud OSS (Object Storage Service) with a custom domain.
+A simple Express.js server for uploading files directly to Alibaba Cloud OSS (Object Storage Service) with a custom domain.
 
 ## Features
 
@@ -30,5 +30,5 @@ A simple Node.js server for uploading files directly to Alibaba Cloud OSS (Objec
 
 | Parameter         | Description                          |
 |-------------------|--------------------------------------|
-| `region`          | Your Endpoint IP Backend (e.g., `http://localhost:3000`) |`) |
+| `line809`          | Your Endpoint IP Backend (e.g., `http://localhost:3000`) |`) |
 
