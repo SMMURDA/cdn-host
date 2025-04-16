@@ -1,5 +1,9 @@
 # CDN Host Server with Custom Domain
-![Result](https://raw.githubusercontent.com/SMMURDA/cdn-host/main/screenshot/result.jpg)
+<div align="center">
+  <img src="https://raw.githubusercontent.com/SMMURDA/cdn-host/main/screenshot/result.jpg" alt="Hasil Screenshot" style="max-width: 100%; height: auto;" />
+</div>
+
+
 A simple Express.js server for uploading files directly to Alibaba Cloud OSS (Object Storage Service) with a custom domain.
 
 ## Features
